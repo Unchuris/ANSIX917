@@ -91,7 +91,6 @@ int getSequenceSize() {
 	int n = 0;
 	char c = 0;
 	while (true) {
-		//_flushall(); 
 		printf("¬ведите длину выходной последовательности: ");
 		if (scanf("%i%c", &n, &c) == 2 && c == '\n' && n > 0 && n < 100000) {
 			return n;

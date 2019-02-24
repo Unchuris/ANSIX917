@@ -6,8 +6,6 @@
 
 #include "./BinStr.h"
 
-BinStr ANSIX917(BinStr key, BinStr seed, int n);
-
 BinStr ANSIX917_sequence(int n);
 
 #endif

@@ -272,24 +272,6 @@ BinStr rotateR(BinStr str, int n) {
 	return new;
 }
 
-BinStr shiftL(BinStr str) {
-	assert(str != NULL);
-	BinStr new = empty_BinStr(str->length + 1);
-	for (int i = 0; i < str->length; i++) {
-		new->bits[i] = str->bits[i];
-	}
-	return new;
-}
-
-BinStr shiftR(BinStr str) {
-	assert(str != NULL);
-	BinStr new = empty_BinStr(str->length - 1);
-	for (int i = 0; i < str->length - 1; i++) {
-		new->bits[i] = str->bits[i];
-	}
-	return new;
-}
-
 char *toString(BinStr str) {
 	assert(str != NULL);
 	char *new = malloc(sizeof(char) * (str->length));
@@ -350,16 +332,6 @@ void printStr(BinStr str) {
 	}
 }
 
-int msb(BinStr str) {
-	assert(str != NULL);
-	return str->bits[0];
-}
-
-int lsb(BinStr str) {
-	assert(str != NULL);
-	return str->bits[str->length - 1];
-}
-
 bool parity(BinStr str) {
 	assert(str != NULL);
 	bool result = 0;
@@ -367,51 +339,6 @@ bool parity(BinStr str) {
 		result = result ^ str->bits[i];
 	}
 	return result;
-}
-
-int number_of_seq(BinStr str, BinStr seq) {
-	assert(str != NULL && seq != NULL && str->length > seq->length);
-	int count = 0;
-	for (int i = 0; i < str->length; i++) {
-		bool found = 1;
-		for (int j = 0; j < seq->length && found; j++) {
-			if (str->bits[i + j] != seq->bits[j]) {
-				found = 0;
-			}
-		}
-		if (found) count++;
-	}
-	return count;
-}
-
-BinStr modpwr(BinStr str, int n) {
-	assert(str != NULL && n > 0);
-	BinStr new = empty_BinStr(n);
-	for (int i = 0; i < n; i++) {
-		new->bits[i] = str->bits[i + (str->length - n)];
-	}
-	return new;
-}
-
-int compare(BinStr str1, BinStr str2) {
-	BinStr str3 = flush(str1), str4 = flush(str2);
-	if (str3->length > str4->length) {
-		return 1;
-	}
-	else if (str3->length < str4->length) {
-		return -1;
-	}
-	else {
-		for (int i = 1; i < str3->length; i++) {
-			if (str3->bits[i] > str4->bits[i]) {
-				return 1;
-			}
-			else if (str3->bits[i] < str4->bits[i]) {
-				return -1;
-			}
-		}
-	}
-	return 0;
 }
 
 BinStr add(BinStr str1, BinStr str2) {
@@ -427,22 +354,6 @@ BinStr add(BinStr str1, BinStr str2) {
 		offset = offset / 2;
 	}
 	return set(new, flush(new));
-}
-
-BinStr modAdd(BinStr str1, BinStr str2, int n) {
-	assert(str1 != NULL && str2 != NULL && n > 0);
-	BinStr new = empty_BinStr(n);
-	int offset = 0;
-	for (int i = 1; i <= new->length; i++) {
-		if (str1->length >= i && str1->bits[str1->length - i]) offset++;
-		if (str2->length >= i && str2->bits[str2->length - i]) offset++;
-		if ((offset % 2 != 0 || offset == 1) && offset != 0) {
-			new->bits[new->length - i] = true;
-			offset--;
-		}
-		offset = offset / 2;
-	}
-	return new;
 }
 
 BinStr reverse(BinStr str) {
@@ -472,27 +383,6 @@ BinStr reversePermutate(BinStr str, int *order, int len, int offset) {
 		new->bits[order[i] - offset] = str->bits[i];
 	}
 	return new;
-}
-
-BinStr paddingMethod2(BinStr str, int block) {
-	assert(str != NULL && block > 0);
-	BinStr zero = str_to_BinStr("0", 1);
-	BinStr one = str_to_BinStr("1", 1);
-	BinStr copy = append(str, zero);
-	while (copy->length % block != 0) {
-		copy = set(copy, append(copy, one));
-	}
-	return copy;
-}
-
-BinStr paddingZero(BinStr str, int block) {
-	assert(str != NULL && block > 0);
-	BinStr zero = str_to_BinStr("0", 1);
-	BinStr copy = copyStr(str);
-	while (copy->length % block != 0) {
-		copy = set(copy, append(copy, zero));
-	}
-	return copy;
 }
 
 BinStr *split(BinStr str, int split_len) {

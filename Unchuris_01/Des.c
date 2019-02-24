@@ -244,8 +244,6 @@ BinStr DESdecrypt(BinStr block, BinStr *roundKeys) {
 BlockCipher DES_initialize(BinStr key, char* mode) {
 	assert(key != NULL && mode != NULL && key->length == DES_KEY_SIZE);
 
-	//assert(verifyKey(key) == 1);
-
 	BlockCipher DES = malloc(sizeof(struct blockcipher));
 	DES->key = copyStr(key);
 	DES->roundKeys = initializeRoundKeys(key);

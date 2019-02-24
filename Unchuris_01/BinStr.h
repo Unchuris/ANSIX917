@@ -52,10 +52,6 @@ BinStr rotateL(BinStr str, int n);
 
 BinStr rotateR(BinStr str, int n);
 
-BinStr shiftL(BinStr str);
-
-BinStr shiftR(BinStr str);
-
 char *toString(BinStr str);
 
 char *toASCII(BinStr str);
@@ -66,31 +62,15 @@ BinStr append(BinStr str1, BinStr str2);
 
 void printStr(BinStr str);
 
-int msb(BinStr str);
-
-int lsb(BinStr str);
-
 bool parity(BinStr str);
 
-int number_of_seq(BinStr str, BinStr seg);
-
-BinStr modpwr(BinStr str, int n);
-
-int compare(BinStr str1, BinStr str2);
-
 BinStr add(BinStr str1, BinStr str2);
-
-BinStr modAdd(BinStr str1, BinStr str2, int n);
 
 BinStr reverse(BinStr str);
 
 BinStr permutate(BinStr str, int *order, int len, int offset);
 
 BinStr reversePermutate(BinStr str, int *order, int len, int offset);
-
-BinStr paddingMethod2(BinStr str, int block);
-
-BinStr paddingZero(BinStr str, int block);
 
 BinStr *split(BinStr str, int split_len);
 
