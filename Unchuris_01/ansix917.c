@@ -27,11 +27,13 @@ BinStr ANSIX917(BinStr key, BinStr seed, int n) {
 		BlockCipher DES2 = DES_initialize(key2, "ECB");
 
 		BinStr new = empty_BinStr(0);
-		while (new->length < n) {
-
-			BinStr cur_time = int_to_BinStr((unsigned)time(NULL));
-			cur_time = set(cur_time, cut(cur_time, DES_BLOCK_SIZE));
-			cur_time = set(cur_time, TDES(cur_time, DES1, DES2));
+		BinStr cur_time = int_to_BinStr((unsigned)time(NULL));
+		cur_time = set(cur_time, cut(cur_time, DES_BLOCK_SIZE));
+		cur_time = set(cur_time, TDES(cur_time, DES1, DES2));
+		BinStr start_time = copyStr(cur_time);
+		
+		while (new->length < n * DES_BLOCK_SIZE) {
+			cur_time = copyStr(start_time);
 			BinStr old_time = copyStr(cur_time);
 			cur_time = set(cur_time, XOR(cur_time, cur_seed));
 			cur_time = set(cur_time, TDES(cur_time, DES1, DES2));
@@ -42,6 +44,7 @@ BinStr ANSIX917(BinStr key, BinStr seed, int n) {
 			destroy_BinStr(cur_time);
 			destroy_BinStr(old_time);
 		}
+		destroy_BinStr(start_time);
 		destroy_BinStr(cur_seed);
 
 		destroy_BinStr(key1);
@@ -49,7 +52,6 @@ BinStr ANSIX917(BinStr key, BinStr seed, int n) {
 		DES_destroy(DES1);
 		DES_destroy(DES2);
 
-		new = set(new, cut(new, n));
 		return new;
 	}
 	return empty_BinStr(0);
@@ -91,7 +93,7 @@ int getSequenceSize() {
 	int n = 0;
 	char c = 0;
 	while (true) {
-		printf("Введите длину выходной последовательности: ");
+		printf("Введите количество генерируемых 64-битовых двоичных слов: ");
 		if (scanf("%i%c", &n, &c) == 2 && c == '\n' && n > 0 && n < 100000) {
 			return n;
 		}
@@ -104,7 +106,9 @@ int getSequenceSize() {
 
 int main() {
 	setlocale(LC_ALL, "Russian");
+	printf("ГЕНЕРАТОР ANSI X9.17\n");
 	printStr(ANSIX917_sequence(getSequenceSize()));
+	//printStr(ANSIX917_sequence(getSequenceSize()));
 	getchar();
 	return 0;
 }
